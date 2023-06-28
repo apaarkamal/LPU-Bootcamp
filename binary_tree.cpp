@@ -117,16 +117,6 @@ void dfs(node* root) {
 	return;
 }
 
-// preorder
-void preorder(node* root) {
-	if (root == NULL) return;
-	// preorder
-	cout << root->data << '\n';
-	preorder(root->left);
-	preorder(root->right);
-	return;
-}
-
 // inorder
 void inorder(node* root) {
 	if (root == NULL) return;
@@ -142,8 +132,8 @@ void postorder(node* root) {
 	if (root == NULL) return;
 	// postorder
 	postorder(root->left);
-	cout << root->data << '\n';
 	postorder(root->right);
+	cout << root->data << '\n';
 	return;
 }
 
@@ -309,17 +299,26 @@ node* constructusingpreorder() {
 	return root;
 }
 
-node* constructusinginorder() {
-	int x;
-	cin >> x;
-	if (x == -1) return NULL;
+void sumleftSubtree(node* root, int &sum) {
+	if (root == NULL) return;
 
+	sum += root->data;
 
-	root->left = constructusingpreorder();
-	node* root = new node(x);
-	root->right = constructusingpreorder();
+	int SumEnterTheNode = sum;
 
-	return root;
+	sumleftSubtree(root->left, sum);
+
+	// sum??
+	int SumComingBackFromLeftSubstree = sum;
+
+	root->data = SumComingBackFromLeftSubstree
+	             - SumEnterTheNode;
+
+	sumleftSubtree(root->right, sum);
+
+	int SumComingBackFromRightSubstree = sum;
+
+	// right substree sum
 }
 
 int main()
@@ -328,8 +327,8 @@ int main()
 	freopen("output.txt", "w", stdout);
 
 	// node* root = constructBinaryTree();
-	// node* root = constructusingpreorder();
-	node* root = constructusinginorder();
+	node* root = constructusingpreorder();
+	// node* root = constructusinginorder();
 
 	// node* root2 = constructBinaryTree();
 
@@ -363,8 +362,8 @@ int main()
 
 	// cout << diameter(root);
 
-	preorder(root);
-
+	int sum = 0;
+	sumleftSubtree(node * root, sum);
 
 
 	return 0;
