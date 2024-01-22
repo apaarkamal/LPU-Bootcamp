@@ -42,8 +42,6 @@ int main() {
 		// minimum distance between two cows
 		// and maximum distance betweem two cows
 
-		int ans = 0;
-
 		while (left < right) {
 
 			int mid = (left + right) / 2;
