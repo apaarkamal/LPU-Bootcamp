@@ -1,61 +1,68 @@
 #include<bits/stdc++.h>
-
 using namespace std;
 
-// O(n)
-int place_cows(int a[], int n, int min_dis) {
-	// place first cow at a[0]
-	int cows = 1, prev_cow = a[0];
+int place_cows(int a[], int n, int d) {
 
-	for (int i = 1; i < n; i++) {
-		// try and place a cow at index i
-		if (a[i] - prev_cow >= min_dis) {
-			cows++;
-			prev_cow = a[i];
-		}
+	int cows = 1, prev = a[0];
+
+	for (int cur = 1; cur < n; cur++) {
+		if ((a[cur] - prev) >= d) cows++, prev = a[cur];
 	}
 
 	return cows;
 }
 
-int main()
-{
+int main() {
+
+#ifndef ONLINE_JUDGE
 	freopen("input.txt", "r", stdin);
 	freopen("output.txt", "w", stdout);
+#endif
 
+	// code
 	int t;
 	cin >> t;
 	while (t--) {
+
 		int n, c;
 		cin >> n >> c;
 		int a[n];
+
 		for (int i = 0; i < n; i++) {
 			cin >> a[i];
 		}
 		sort(a, a + n);
 
-		int left = 1, right = 1e9, ans = 1;
+		// for (int d = 1; d <= (a[n - 1] - a[0]); d++) {
+		// 	int cows = place_cows(a, n, d);
+		// 	cout << d << " " << cows << '\n';
+		// }
 
-		// left = 29
-		// right = 30
+		int left = 0, right = a[n - 1] - a[0];
+		// minimum distance between two cows
+		// and maximum distance betweem two cows
+
+		int ans = 0;
+
 		while (left < right) {
-			// 29
+
 			int mid = (left + right) / 2;
-			// cout << mid << '\n';
-			if (place_cows(a, n, mid) >= c) {
-				// 29
-				ans = mid;
+			// number of cows i can place if the distance
+			// is at least mid
+			int cows_at_mid = place_cows(a, n, mid);
+
+			if (cows_at_mid >= c) {
 				left = mid + 1;
 			}
 			else {
-				right = mid - 1;
+				right = mid;
 			}
+
 		}
 
-		cout << ans;
+		cout << left - 1 << '\n';
+
 
 	}
 
-
-	return 0;
 }
